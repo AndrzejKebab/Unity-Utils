@@ -15,13 +15,34 @@ public static class NumberExtensions
 	public static int AtMost(this int value, int max) => Mathf.Min(value, max);
 
 #if ENABLED_UNITY_MATHEMATICS
-	public static half AtLeast(this half value, half max) => MathfExtension.Max(value, max);
-	public static half AtMost(this half value, half max) => MathfExtension.Min(value, max);
+	public static half AtLeast(this half value, half max) => MathfExtensions.Max(value, max);
+	public static half AtMost(this half value, half max) => MathfExtensions.Min(value, max);
 #endif
 
 	public static float AtLeast(this float value, float min) => Mathf.Max(value, min);
 	public static float AtMost(this float value, float max) => Mathf.Min(value, max);
 
-	public static double AtLeast(this double value, double min) => MathfExtension.Max(value, min);
-	public static double AtMost(this double value, double min) => MathfExtension.Min(value, min);
+	public static double AtLeast(this double value, double min) => MathfExtensions.Max(value, min);
+	public static double AtMost(this double value, double min) => MathfExtensions.Min(value, min);
+
+	public static bool IsOdd(this int i) => i % 2 == 1;
+	public static bool IsEven(this int i) => i % 2 == 0;
+
+	public static bool Approx(this float f1, float f2) => Mathf.Approximately(f1, f2);
+
+	/// <summary>
+	/// Determines whether an integer is within a specified range (inclusive).
+	/// </summary>
+	/// <param name="a">The lower bound of the range.</param>
+	/// <param name="b">The upper bound of the range.</param>
+	/// <returns>True if the integer is within the specified range (inclusive); otherwise, false.</returns>
+	public static bool IsInRange(this int i, int a, int b) => i >= a && i <= b;
+
+	/// <summary>
+	/// Determines whether a floating-point number is within a specified range (inclusive).
+	/// </summary>
+	/// <param name="a">The lower bound of the range.</param>
+	/// <param name="b">The upper bound of the range.</param>
+	/// <returns>True if the floating-point number is within the specified range (inclusive); otherwise, false.</returns>
+	public static bool IsInRange(this float i, float a, float b) => i >= a && i <= b;
 }
