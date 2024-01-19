@@ -30,15 +30,19 @@ public static class ObjectExtensions
 	}
 
 	/// <summary>
-	/// Destroys the object. Uses <see cref="Object.Destroy"/> in play mode, and <see cref="Object.DestroyImmediate"/> in edit mode.
+	/// Destroys the object. Uses <see cref="Object.Destroy"/> in play mode or build, and <see cref="Object.DestroyImmediate"/> in edit mode.
 	/// </summary>
 	/// <param name="obj">The object to destroy.</param>
 	public static void Destroy(this Object obj)
 	{
 		if (Application.isPlaying)
+		{
 			Object.Destroy(obj);
+		}			
 		else
+		{
 			Object.DestroyImmediate(obj);
+		}
 	}
 
 	/// <summary>

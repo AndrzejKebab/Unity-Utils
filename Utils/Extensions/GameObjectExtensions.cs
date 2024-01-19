@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Linq;
+using System.Collections.Generic;
 
 public static class GameObjectExtensions 
 {
@@ -23,7 +24,7 @@ public static class GameObjectExtensions
 	/// <typeparam name="T">The type of the component to get or add.</typeparam>
 	/// <param name="gameObject">The GameObject to get the component from or add the component to.</param>
 	/// <returns>The existing component of the given type, or a new one if no such component exists.</returns>    
-	public static T GetOrAdd<T> (this GameObject gameObject) where T : Component 
+	public static T GetOrAddComponent<T> (this GameObject gameObject) where T : Component 
 	{
 		T component = gameObject.GetComponent<T>();
 		if (!component) component = gameObject.AddComponent<T>();
@@ -123,6 +124,33 @@ public static class GameObjectExtensions
 	{
 		gameObject.layer = layer;
 		gameObject.transform.ForEveryChild(child => child.gameObject.SetLayersRecursively(layer));
+	}
+
+
+	/// <summary>
+	/// Sets the collision state of all colliders in a GameObject and its children.
+	/// </summary>
+	/// <param name="tf">True to enable colliders, false to disable colliders.</param>
+	public static void SetCollisionRecursively(this GameObject gameObject, bool tf)
+	{
+		Collider[] colliders = gameObject.GetComponentsInChildren<Collider>();
+		foreach (Collider collider in colliders)
+		{
+			collider.enabled = tf;
+		}
+	}
+
+	/// <summary>
+	/// Sets the visibility state of all renderers in a GameObject and its children.
+	/// </summary>
+	/// <param name="tf">True to enable renderers, false to disable renderers.</param>
+	public static void SetVisualRecursively(this GameObject gameObject, bool tf)
+	{
+		Renderer[] renderers = gameObject.GetComponentsInChildren<Renderer>();
+		foreach (Renderer renderer in renderers)
+		{
+			renderer.enabled = tf;
+		}
 	}
 
 	/// <summary>

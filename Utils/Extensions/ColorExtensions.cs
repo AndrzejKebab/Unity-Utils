@@ -1,9 +1,108 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public static class ColorExtensions
 {
+	/// <summary>
+	/// Deconstructs a Color into its RGB components.
+	/// </summary>
+	/// <param name="r">The red component of the Color.</param>
+	/// <param name="g">The green component of the Color.</param>
+	/// <param name="b">The blue component of the Color.</param>
+	public static void Deconstruct(in this Color color, out float r, out float g, out float b)
+	{
+		r = color.r;
+		g = color.g;
+		b = color.b;
+	}
+
+	/// <summary>
+	/// Deconstructs a Color into its RGBA components.
+	/// </summary>
+	/// <param name="r">The red component of the Color.</param>
+	/// <param name="g">The green component of the Color.</param>
+	/// <param name="b">The blue component of the Color.</param>
+	/// <param name="a">The alpha component of the Color.</param>
+	public static void Deconstruct(in this Color color, out float r, out float g, out float b, out float a)
+	{
+		r = color.r;
+		g = color.g;
+		b = color.b;
+		a = color.a;
+	}
+
+	/// <summary>
+	/// Deconstructs a Color32 into its RGB components.
+	/// </summary>
+	/// <param name="r">The red component of the Color32.</param>
+	/// <param name="g">The green component of the Color32.</param>
+	/// <param name="b">The blue component of the Color32.</param>
+	public static void Deconstruct(in this Color32 color, out byte r, out byte g, out byte b)
+	{
+		r = color.r;
+		g = color.g;
+		b = color.b;
+	}
+
+	/// <summary>
+	/// Deconstructs a Color32 into its RGBA components.
+	/// </summary>
+	/// <param name="r">The red component of the Color32.</param>
+	/// <param name="g">The green component of the Color32.</param>
+	/// <param name="b">The blue component of the Color32.</param>
+	/// <param name="a">The alpha component of the Color32.</param>
+	public static void Deconstruct(in this Color32 color, out byte r, out byte g, out byte b, out byte a)
+	{
+		r = color.r;
+		g = color.g;
+		b = color.b;
+		a = color.a;
+	}
+
+	/// <summary>
+	/// Creates a new Color with optional modified components.
+	/// </summary>
+	/// <param name="r">The new red component (optional).</param>
+	/// <param name="g">The new green component (optional).</param>
+	/// <param name="b">The new blue component (optional).</param>
+	/// <param name="a">The new alpha component (optional).</param>
+	/// <returns>A new Color with specified or original components.</returns>
+	public static Color With(in this Color color, float? r = null, float? g = null, float? b = null, float? a = null)
+	{
+		// Create a new Color with optional modified components
+		var result = new Color(r ?? color.r, g ?? color.g, b ?? color.b, a ?? color.a);
+		return result;
+	}
+
+	/// <summary>
+	/// Creates a new Color32 with optional modified components.
+	/// </summary>
+	/// <param name="r">The new red component (optional).</param>
+	/// <param name="g">The new green component (optional).</param>
+	/// <param name="b">The new blue component (optional).</param>
+	/// <param name="a">The new alpha component (optional).</param>
+	/// <returns>A new Color32 with specified or original components.</returns>
+	public static Color32 With(in this Color32 color, byte? r = null, byte? g = null, byte? b = null, byte? a = null)
+	{
+		// Create a new Color32 with optional modified components
+		var result = new Color32(r ?? color.r, g ?? color.g, b ?? color.b, a ?? color.a);
+		return result;
+	}
+
+	/// <summary>
+	/// Normalizes the RGB components of the Color.
+	/// </summary>
+	/// <returns>The normalized Color.</returns>
+	public static Color Normalize(this ref Color color)
+	{
+		var vector = new Vector3(color.r, color.g, color.b).normalized;
+
+		color.r = vector.x;
+		color.g = vector.y;
+		color.b = vector.z;
+
+		return color;
+	}
+
 	/// <summary>
 	/// Converts HSL (Hue, Saturation, Lightness) color representation to RGB (Red, Green, Blue) color.
 	/// </summary>
@@ -13,7 +112,6 @@ public static class ColorExtensions
 	/// <returns>The resulting RGB color.</returns>
 	public static Color HSLToRGB(float h, float s, float l)
 	{
-		// Internal helper function to convert hue to RGB
 		float hue2Rgb(float v1, float v2, float vH)
 		{
 			if (vH < 0f)

@@ -1,4 +1,6 @@
 ﻿using UnityEngine;
+using System.Collections;
+
 #if ENABLED_UNITY_MATHEMATICS
 using Unity.Mathematics;
 #endif
@@ -37,6 +39,13 @@ public static class NumberExtensions
 	/// <param name="b">The upper bound of the range.</param>
 	/// <returns>True if the integer is within the specified range (inclusive); otherwise, false.</returns>
 	public static bool IsInRange(this int i, int a, int b) => i >= a && i <= b;
+
+	/// <summary>
+	/// Determines whether an integer is within the valid index range of a list.
+	/// </summary>
+	/// <param name="list">The list for which to check the index range.</param>
+	/// <returns>True if the integer is within the valid index range of the list; otherwise, false.</returns>
+	public static bool IsInRangeOf(this int i, IList list) => i.IsInRange(0, list.Count - 1);
 
 	/// <summary>
 	/// Determines whether a floating-point number is within a specified range (inclusive).

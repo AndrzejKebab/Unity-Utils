@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Random = UnityEngine.Random;
 
 public static class ListExtensions 
 {
@@ -53,14 +54,12 @@ public static class ListExtensions
 	/// <param name="element">The element to add to the list.</param>
 	public static void AddAt<T>(this IList<T> list, int index, T element)
 	{
-		// If the index is out of bounds, add the element to the end of the list
 		if (index < 0 || index >= list.Count)
 		{
 			list.Add(element);
 		}
 		else
 		{
-			// Insert the element at the specified index
 			list.Insert(index, element);
 		}
 	}
@@ -70,10 +69,7 @@ public static class ListExtensions
 	/// </summary>
 	public static void RemoveLast<T>(this IList<T> list)
 	{
-		// Check if the list is empty before attempting to remove the last element
 		if (list.IsNullOrEmpty()) return;
-
-		// Remove the last element from the list
 		list.RemoveAt(list.Count - 1);
 	}
 
@@ -82,11 +78,9 @@ public static class ListExtensions
 	/// </summary>
 	/// <typeparam name="T">The type of elements in the list.</typeparam>
 	/// <typeparam name="T2">The type of the key used for sorting, must implement <see cref="IComparable"/>.</typeparam>
-	/// <param name="list">The list to be sorted.</param>
 	/// <param name="keySelector">A function that extracts a key from an element for sorting.</param>
 	public static void SortBy<T, T2>(this List<T> list, Func<T, T2> keySelector) where T2 : IComparable
 	{
-		// Use the List<T>.Sort method with a custom comparison function based on the key selector
 		list.Sort((q, w) => keySelector(q).CompareTo(keySelector(w)));
 	}
 
@@ -96,25 +90,61 @@ public static class ListExtensions
 	/// Retrieves the element at the specified index in a list, with wrapping for out-of-bounds indices.
 	/// </summary>
 	/// <typeparam name="T">The type of elements in the list.</typeparam>
-	/// <param name="list">The list from which to retrieve the element.</param>
 	/// <param name="index">The index at which to retrieve the element. Negative indices wrap around from the end of the list.</param>
 	/// <returns>The element at the specified index with wrapping for out-of-bounds indices.</returns>
 	public static T GetAtWrapped<T>(this List<T> list, int index)
 	{
-		// Wrap around negative indices from the end of the list
 		while (index < 0) index += list.Count;
-
-		// Wrap around indices that exceed the list length
 		while (index >= list.Count) index -= list.Count;
 
-		// Return the element at the wrapped index
 		return list[index];
 	}
 
 	/// <summary>
-	/// Determines whether an integer is within the valid index range of a list.
+	/// Retrieves a random element from a list.
 	/// </summary>
-	/// <param name="list">The list for which to check the index range.</param>
-	/// <returns>True if the integer is within the valid index range of the list; otherwise, false.</returns>
-	public static bool IsInRangeOf(this int i, IList list) => i.IsInRange(0, list.Count - 1);
+	/// <param name="list">The list from which to retrieve a random element.</param>
+	/// <returns>A random element from the list.</returns>
+	public static T GetRandomItem<T>(this IList<T> list)
+	{
+		int randomIndex = Random.Range(0, list.Count);
+		return list[randomIndex];
+	}
+
+	/// <summary>
+	/// Removes a random element from a list and returns it.
+	/// </summary>
+	/// <typeparam name="T">The type of elements in the list.</typeparam>
+	/// <param name="list">The list from which to remove a random element.</param>
+	/// <returns>The removed random element.</returns>
+	/// <exception cref="System.IndexOutOfRangeException">Thrown if the list is empty.</exception>
+	public static T RemoveRandomItem<T>(this IList<T> list)
+	{
+		if (list.Count == 0) throw new IndexOutOfRangeException("Cannot remove a random item from an empty list");
+
+		int index = Random.Range(0, list.Count);
+		T item = list[index];
+		list.RemoveAt(index);
+
+		return item;
+	}
+
+	/// <summary>
+	/// Shuffles the elements of a list using the Fisher-Yates algorithm.
+	/// </summary>
+	/// <param name="list">The list to be shuffled.</param>
+	public static void Shuffle<T>(this IList<T> list)
+	{
+		// Use the Fisher-Yates algorithm to shuffle the elements in the list
+		for (var i = list.Count - 1; i > 0; i--)
+		{
+			// Generate a random index within the remaining unshuffled elements
+			var j = Random.Range(0, i + 1);
+
+			// Swap the elements at indices i and j
+			var value = list[j];
+			list[j] = list[i];
+			list[i] = value;
+		}
+	}
 }
