@@ -12,7 +12,7 @@ Welcome to the Unity Utility Library, a growing collection of handy extension me
 
 Simply download the library into your Unity project and access the utilities across your scripts or import it in Unity with package manager using this URL:
 ```
-https://github.com/AndrzejKebab/Baldur-Gates-4.git
+https://github.com/AndrzejKebab/Utility-Library.git
 ```
 ## How to Contribute
 
